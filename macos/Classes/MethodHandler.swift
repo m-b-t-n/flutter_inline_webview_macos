@@ -73,6 +73,23 @@ public class InAppWebViewMacosMethodHandler: FlutterMethodCallDelegate {
       let url = controller!.webView!.getOriginalUrl()
       result(url?.baseURL)
 
+    case "reload":
+      let urlRequest = arguments!["urlRequest"] as! [String: Any?]
+      let allowingReadAccessTo = arguments!["allowingReadAccessTo"] as? String
+      var allowingReadAccessToURL: URL? = nil
+      if let allowingReadAccessTo = allowingReadAccessTo {
+        allowingReadAccessToURL = URL(string: allowingReadAccessTo)
+      }
+      Thread.sleep(forTimeInterval: 1) // FIXME: same as above
+      controller!.webView!.loadUrl(
+        urlRequest: URLRequest.init(fromPluginMap: urlRequest),
+        allowingReadAccessTo: allowingReadAccessToURL)
+      result(true)
+
+    case "clearCache":
+      controller!.webView!.clearCache()
+      result("success")
+
     default:
       result(FlutterMethodNotImplemented)
     }
