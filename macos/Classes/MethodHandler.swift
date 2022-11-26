@@ -86,6 +86,10 @@ public class InAppWebViewMacosMethodHandler: FlutterMethodCallDelegate {
         allowingReadAccessTo: allowingReadAccessToURL)
       result(true)
 
+    case "clearCache":
+      controller!.webView!.clearCache()
+      result("success")
+
     default:
       result(FlutterMethodNotImplemented)
     }
